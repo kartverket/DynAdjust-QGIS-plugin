@@ -1,0 +1,11 @@
+# nonk8s
+apiVersion: "backstage.io/v1alpha1"
+kind: "Component"
+metadata:
+  name: "dask-qgis-plugin"
+  tags:
+  - "private"
+spec:
+  type: "service"
+  lifecycle: "production"
+  owner: "dataplattform"

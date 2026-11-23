@@ -1,0 +1,6 @@
+# qgis-plugin-ci configuration
+# See https://opengisch.github.io/qgis-plugin-ci/
+plugin_path: dynadjustplugin
+github_organization_slug: kartverket
+gitlab_organization_slug: kartverket
+project_slug: DynAdjust-QGIS-plugin

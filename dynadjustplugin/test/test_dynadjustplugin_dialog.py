@@ -1,0 +1,42 @@
+# coding=utf-8
+"""Dialog tests for dynadjust-pluginDialog."""
+
+import pytest
+from qgis.core import Qgis
+from qgis.PyQt.QtWidgets import QDialogButtonBox, QDialog
+
+# Imported under a neutral name: pytest would try to collect the class as a
+# test class if the plugin's class name starts with "Test"
+from dynadjustplugin.dynadjustplugin_dialog import (
+    dynadjust-pluginDialog as PluginDialog,
+)
+
+if Qgis.QGIS_VERSION_INT >= 40000:
+    OK_BUTTON = QDialogButtonBox.StandardButton.Ok
+    CANCEL_BUTTON = QDialogButtonBox.StandardButton.Cancel
+    ACCEPTED = QDialog.DialogCode.Accepted
+    REJECTED = QDialog.DialogCode.Rejected
+else:
+    OK_BUTTON = QDialogButtonBox.Ok
+    CANCEL_BUTTON = QDialogButtonBox.Cancel
+    ACCEPTED = QDialog.Accepted
+    REJECTED = QDialog.Rejected
+
+
+@pytest.fixture
+def dialog(qgis_app):
+    dlg = PluginDialog(None)
+    yield dlg
+    dlg.close()
+
+
+def test_dialog_ok(dialog):
+    """Clicking OK closes the dialog with Accepted."""
+    dialog.button_box.button(OK_BUTTON).click()
+    assert dialog.result() == ACCEPTED
+
+
+def test_dialog_cancel(dialog):
+    """Clicking Cancel closes the dialog with Rejected."""
+    dialog.button_box.button(CANCEL_BUTTON).click()
+    assert dialog.result() == REJECTED
