@@ -60,21 +60,24 @@ jobs:
           echo "y" | pb_tool clean
           echo "y" | pb_tool dclean
           
-    #  - name: Install Qt tools
-    #    run: |
-    #      sudo apt-get update
-    #      sudo apt-get install -y qt6-tools-dev qt6-tools-dev-tools pyqt6-dev-tools
-    #      command -v pyrcc6
-        
+      - name: Install Qt tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qt6-tools-dev qt6-tools-dev-tools
+          python -m pip install --upgrade pyqt6 pyqt6-tools
+
       - name: Compile plugin resources
         working-directory: dynadjustplugin
         run: |
+          export PATH="$(python -c 'import sysconfig; print(sysconfig.get_path("scripts"))'):${PATH}"
+          export PATH="/usr/lib/qt6/libexec:${PATH}"
+          command -v rcc
+          command -v pyrcc6 || command -v rcc
           pb_tool compile
-          pyrcc6 -o resources.py resources.qrc
           test -s resources.py
           echo "y" | pb_tool deploy
           pb_tool zip
-        
+          
      # - name: Run pb_tool deploy
      #   run: |
      #     cd dynadjustplugin
