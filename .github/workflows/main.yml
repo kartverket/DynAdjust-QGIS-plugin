@@ -77,9 +77,10 @@ jobs:
           echo "y" | pb_tool deploy
           mkdir -p zip_build
           cd ..
-          zip -r dynadjustplugin/zip_build/dynadjustplugin.zip dynadjustplugin -x 'dynadjustplugin/zip_build/*'
-
+          zip -r dynadjustplugin.zip dynadjustplugin
+          
       - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
         id: create_release
         uses: actions/create-release@v1
         env:
