@@ -64,6 +64,8 @@ jobs:
         working-directory: dynadjustplugin
         run: |
           pb_tool compile
+          pyrcc6 -o resources.py resources.qrc
+          test -s resources.py
           echo "y" | pb_tool deploy
           pb_tool zip
         
