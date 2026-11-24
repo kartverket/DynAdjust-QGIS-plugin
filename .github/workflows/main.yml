@@ -6,6 +6,9 @@ on:
       - '**'
     tags:
       - '[1-99].[0-9]'
+  
+permissions:
+  contents: write
 
 jobs:
   build:
