@@ -65,9 +65,9 @@ jobs:
           RCC=""
           for name in pyrcc6 rcc pyqt6-rcc pyside6-rcc; do
             if command -v "$name" >/dev/null 2>&1; then
-            RCC="$(command -v "$name")"
-          break
-          fi
+              RCC="$(command -v "$name")"
+              break
+            fi
           done
 
           if [ -n "$RCC" ]; then
@@ -77,8 +77,8 @@ jobs:
             python - <<'PY'
             import PyQt6
             print("PyQt6 installed at:", PyQt6.__file__)
-          PY
-          exit 1
+            PY
+            exit 1
           fi
           
       - name: Run pb_tool deploy
