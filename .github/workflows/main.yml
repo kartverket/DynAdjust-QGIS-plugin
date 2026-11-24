@@ -61,11 +61,6 @@ jobs:
         run: |
           pip install pb_tool
 
-      #- name: Build plugin
-      #  working-directory: dynadjustplugin
-      #  run: |
-      #    echo "y" | pb_tool deploy
-
       - name: Install Qt resource compiler
         run: |
           sudo apt-get update
