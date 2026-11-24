@@ -74,10 +74,10 @@ jobs:
           command -v rcc
           command -v pyrcc6 || command -v rcc
           pb_tool compile
-          test -s resources.py
-          echo "y" | pb_tool deploy
+          test -s resources.py         
           pb_tool zip
           
+     #  echo "y" | pb_tool deploy
      # - name: Run pb_tool deploy
      #   run: |
      #     cd dynadjustplugin
