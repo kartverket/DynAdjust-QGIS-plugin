@@ -65,6 +65,12 @@ jobs:
       #  working-directory: dynadjustplugin
       #  run: |
       #    echo "y" | pb_tool deploy
+
+      - name: Install Qt resource compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qttools6-dev-tools
+          which rcc
       
       - name: Build plugin ZIP
         working-directory: dynadjustplugin
