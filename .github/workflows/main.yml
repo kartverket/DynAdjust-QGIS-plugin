@@ -76,7 +76,18 @@ jobs:
           mkdir -p zip_build
           cd ..
           zip -r dynadjustplugin/zip_build/dynadjustplugin.zip dynadjustplugin \
-            -x 'dynadjustplugin/zip_build/*'       
+            -x 'dynadjustplugin/zip_build/*'
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
 
       - name: Upload Release Asset
         if: startsWith(github.ref, 'refs/tags/')
@@ -87,18 +98,5 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dynadjustplugin/zip_build/dynadjustplugin.zip
           asset_name: dynadjust_plugin_app_${{ github.ref_name }}.zip
-          asset_content_type: application/zip    
-      
-      #- name: Create Release
-      #  id: create_release
-      #  uses: actions/create-release@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    tag_name: ${{ github.ref_name }}
-      #    release_name: Release ${{ github.ref_name }}
-      #    draft: false
-      #    prerelease: false
-
-      
+          asset_content_type: application/zip
           
