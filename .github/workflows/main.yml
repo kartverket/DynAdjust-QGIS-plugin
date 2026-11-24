@@ -56,16 +56,15 @@ jobs:
 
       - name: Compile plugin resources
         working-directory: dynadjustplugin
-        run: |
-            python -m PyQt6.pyrcc_main resources.qrc -o resources.py
-      
-      - name: Run pb_tool deploy
-        run: |
-          cd dynadjustplugin
-          pb_tool clean
-          rm -rf "$HOME/.local/share/QGIS/QGIS4/profiles/default/python/plugins/dynadjustplugin"
-          pb_tool compile
-          pb_tool zip
+        run: pb_tool compile
+        
+     # - name: Run pb_tool deploy
+     #   run: |
+     #     cd dynadjustplugin
+     #     pb_tool clean
+     #     rm -rf "$HOME/.local/share/QGIS/QGIS4/profiles/default/python/plugins/dynadjustplugin"
+     #     pb_tool compile
+     #     pb_tool zip
 
       - name: Create Release
         id: create_release
