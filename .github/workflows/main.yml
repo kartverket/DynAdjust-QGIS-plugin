@@ -54,6 +54,33 @@ jobs:
           echo "8e5fc3e16aa70aa88eaed4dab5aa4277589c03c5d2db447d90c5932e8094c23e  $RUNNER_TEMP/dynadjust-macos.zip" | sha256sum --check
           unzip -q "$RUNNER_TEMP/dynadjust-macos.zip" -d "$install_dir/macos"
 
+      - name: Install resource compiler
+        run: |
+          python -m pip install --upgrade pip pb-tool PyQt6
+          python -m pip install pyqt6-qt6
+
+      - name: Prepare rcc executable
+        shell: bash
+        run: |
+          RCC=""
+          for name in pyrcc6 rcc pyqt6-rcc pyside6-rcc; do
+            if command -v "$name" >/dev/null 2>&1; then
+            RCC="$(command -v "$name")"
+          break
+          fi
+          done
+
+          if [ -n "$RCC" ]; then
+            echo "Qt resource compiler: $RCC"
+            sudo ln -sf "$RCC" /usr/local/bin/rcc
+          else
+            python - <<'PY'
+            import PyQt6
+            print("PyQt6 installed at:", PyQt6.__file__)
+          PY
+          exit 1
+          fi
+          
       - name: Run pb_tool deploy
         run: |
           cd dynadjustplugin
