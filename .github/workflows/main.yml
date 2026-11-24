@@ -57,6 +57,7 @@ jobs:
       - name: Run pb_tool deploy
         run: |
           cd dynadjustplugin
+          pb_tool clean
           pb_tool dclean
           pb_tool compile
           pb_tool zip
