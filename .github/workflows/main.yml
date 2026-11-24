@@ -75,12 +75,9 @@ jobs:
           set -euo pipefail
           pb_tool compile
           echo "y" | pb_tool deploy
-          pb_tool zip
-          
-          #mkdir -p zip_build
-          #cd ..
-          #zip -r dynadjustplugin/zip_build/dynadjustplugin.zip dynadjustplugin \
-          #  -x 'dynadjustplugin/zip_build/*'
+          mkdir -p zip_build
+          cd ..
+          zip -r dynadjustplugin/zip_build/dynadjustplugin.zip dynadjustplugin -x 'dynadjustplugin/zip_build/*'
 
       - name: Create Release
         id: create_release
