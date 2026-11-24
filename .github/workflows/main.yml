@@ -53,12 +53,16 @@ jobs:
             --output "$RUNNER_TEMP/dynadjust-macos.zip"
           echo "8e5fc3e16aa70aa88eaed4dab5aa4277589c03c5d2db447d90c5932e8094c23e  $RUNNER_TEMP/dynadjust-macos.zip" | sha256sum --check
           unzip -q "$RUNNER_TEMP/dynadjust-macos.zip" -d "$install_dir/macos"
-
+          
+      - name: Delete deployed plugin
+        working-directory: dynadjustplugin
+        run: echo "y" | pb_tool deploy --clean
+        
       - name: Compile plugin resources
         working-directory: dynadjustplugin
         run: |
-          pb_tool clean
-          pb_tool dclean
+          #pb_tool clean
+          #pb_tool dclean
           pb_tool compile
           pb_tool deploy
           pb_tool zip
