@@ -65,25 +65,43 @@ jobs:
         working-directory: dynadjustplugin
         run: |
           echo "y" | pb_tool deploy
-      
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+          
+      - name: Create or update Release
+        if: startsWith(github.ref, 'refs/tags/')
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          asset="./dynadjustplugin/zip_build/dynadjustplugin.zip"
+          asset_name="dynadjust_plugin_app_${TAG_NAME}.zip"
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./dynadjustplugin/zip_build/dynadjustplugin.zip
-          asset_name: dynadjust_plugin_app_${{ github.ref_name }}.zip
-          asset_content_type: application/zip
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            gh release upload "$TAG_NAME" "$asset" --clobber
+          else
+            gh release create "$TAG_NAME" "$asset#${asset_name}" \
+              --title "Release $TAG_NAME" \
+              --generate-notes
+          fi
+      
+      #- name: Create Release
+      #  id: create_release
+      #  uses: actions/create-release@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    tag_name: ${{ github.ref_name }}
+      #    release_name: Release ${{ github.ref_name }}
+      #    draft: false
+      #    prerelease: false
+
+      #- name: Upload Release Asset
+      #  id: upload-release-asset
+      #  uses: actions/upload-release-asset@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+      #    asset_path: ./dynadjustplugin/zip_build/dynadjustplugin.zip
+      #    asset_name: dynadjust_plugin_app_${{ github.ref_name }}.zip
+      #    asset_content_type: application/zip
