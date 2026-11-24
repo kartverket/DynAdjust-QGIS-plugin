@@ -2,6 +2,8 @@ name: Build
 
 on:
   push:
+    branches:
+      - '**'
     tags:
       - '[1-99].[0-9]'
 
@@ -24,6 +26,33 @@ jobs:
           python -m pip install --upgrade pip
           cd dynadjustplugin
           python -m pip install -r requirements.txt
+
+      - name: Install DynAdjust binaries
+        env:
+          DYNADJUST_VERSION: v1.4.1
+        run: |
+          set -euo pipefail
+          install_dir="dynadjustplugin/dynadjust"
+          mkdir -p "$install_dir/linux" "$install_dir/windows" "$install_dir/macos"
+
+          # The Kartverket fork publishes source; use the upstream's matching binary release.
+          curl --fail --location --retry 3 \
+            "https://github.com/GeoscienceAustralia/DynAdjust/releases/download/${DYNADJUST_VERSION}/dynadjust-linux-openblas-static.zip" \
+            --output "$RUNNER_TEMP/dynadjust-linux.zip"
+          echo "0de13c0d46681133ef31dd740df96ba7a06c417041c99dcbe53048f2c05e175b  $RUNNER_TEMP/dynadjust-linux.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/dynadjust-linux.zip" -d "$install_dir/linux"
+
+          curl --fail --location --retry 3 \
+            "https://github.com/GeoscienceAustralia/DynAdjust/releases/download/${DYNADJUST_VERSION}/dynadjust-windows-openblas.zip" \
+            --output "$RUNNER_TEMP/dynadjust-windows.zip"
+          echo "a88c03e540562f776556a15a059c297a5e3ea8604d3d1653843e4a2261cd8481  $RUNNER_TEMP/dynadjust-windows.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/dynadjust-windows.zip" -d "$install_dir/windows"
+
+          curl --fail --location --retry 3 \
+            "https://github.com/GeoscienceAustralia/DynAdjust/releases/download/${DYNADJUST_VERSION}/dynadjust-macos-static.zip" \
+            --output "$RUNNER_TEMP/dynadjust-macos.zip"
+          echo "8e5fc3e16aa70aa88eaed4dab5aa4277589c03c5d2db447d90c5932e8094c23e  $RUNNER_TEMP/dynadjust-macos.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/dynadjust-macos.zip" -d "$install_dir/macos"
 
       - name: Run pb_tool deploy
         run: |
