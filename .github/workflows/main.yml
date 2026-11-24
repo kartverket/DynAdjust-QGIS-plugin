@@ -56,7 +56,9 @@ jobs:
 
       - name: Compile plugin resources
         working-directory: dynadjustplugin
-        run: pb_tool compile
+        run: |
+          pb_tool compile
+          pb_tool zip
         
      # - name: Run pb_tool deploy
      #   run: |
