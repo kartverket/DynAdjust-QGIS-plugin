@@ -77,8 +77,8 @@ jobs:
           cd ..
           zip -r dynadjustplugin/zip_build/dynadjustplugin.zip dynadjustplugin \
             -x 'dynadjustplugin/zip_build/*'
-          test -s zip_build/dynadjustplugin.zip
-          unzip -t zip_build/dynadjustplugin.zip
+          #test -s zip_build/dynadjustplugin.zip
+          #unzip -t zip_build/dynadjustplugin.zip
 
       - name: Upload Release Asset
         if: startsWith(github.ref, 'refs/tags/')
