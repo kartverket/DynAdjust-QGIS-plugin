@@ -71,8 +71,7 @@ jobs:
         run: |
           set -euo pipefail          
           pb_tool compile
-          echo "y" | pb_tool deploy
-          echo "y" | pb_tool dclean
+          echo "y" | pb_tool deploy         
           pb_tool zip
           test -s zip_build/dynadjustplugin.zip
           unzip -t zip_build/dynadjustplugin.zip
