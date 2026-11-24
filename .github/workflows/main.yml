@@ -64,7 +64,7 @@ jobs:
       - name: Build plugin
         working-directory: dynadjustplugin
         run: |
-          pb_tool deploy
+          echo "y" | pb_tool deploy
       
       - name: Create Release
         id: create_release
