@@ -70,6 +70,7 @@ jobs:
         working-directory: dynadjustplugin
         run: |
           set -euo pipefail
+          echo "y" | pb_tool dclean
           pb_tool compile
           echo "y" | pb_tool deploy
           pb_tool zip
