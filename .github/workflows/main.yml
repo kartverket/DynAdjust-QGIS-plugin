@@ -56,7 +56,7 @@ jobs:
           
       - name: Delete deployed plugin
         working-directory: dynadjustplugin
-        run: echo "y" | pb_tool deploy --clean
+        run: echo "y" | pb_tool clean
         
       - name: Compile plugin resources
         working-directory: dynadjustplugin
