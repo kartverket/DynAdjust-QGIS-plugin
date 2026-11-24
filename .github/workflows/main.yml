@@ -60,11 +60,11 @@ jobs:
           echo "y" | pb_tool clean
           echo "y" | pb_tool dclean
           
-      - name: Install Qt tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qt6-tools-dev qt6-tools-dev-tools pyqt6-dev-tools
-          command -v pyrcc6
+    #  - name: Install Qt tools
+    #    run: |
+    #      sudo apt-get update
+    #      sudo apt-get install -y qt6-tools-dev qt6-tools-dev-tools pyqt6-dev-tools
+    #      command -v pyrcc6
         
       - name: Compile plugin resources
         working-directory: dynadjustplugin
