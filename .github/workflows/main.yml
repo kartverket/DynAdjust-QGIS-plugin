@@ -54,38 +54,38 @@ jobs:
           echo "8e5fc3e16aa70aa88eaed4dab5aa4277589c03c5d2db447d90c5932e8094c23e  $RUNNER_TEMP/dynadjust-macos.zip" | sha256sum --check
           unzip -q "$RUNNER_TEMP/dynadjust-macos.zip" -d "$install_dir/macos"
           
-      - name: Delete deployed plugin
+      #- name: Delete deployed plugin
+      #  working-directory: dynadjustplugin
+      #  run: |
+      #    echo "y" | pb_tool clean
+      #    echo "y" | pb_tool dclean
+          
+      #- name: Install Qt tools
+      #  run: |
+      #    sudo apt-get update
+      #    sudo apt-get install -y qt6-tools-dev qt6-tools-dev-tools
+      #   # python -m pip install --upgrade pyqt6 pyqt6-tools
+
+      #- name: Compile plugin resources
+      #  working-directory: dynadjustplugin
+      #  run: |
+      #    export PATH="$(python -c 'import sysconfig; print(sysconfig.get_path("scripts"))'):${PATH}"
+      #    export PATH="/usr/lib/qt6/libexec:${PATH}"
+      #    command -v rcc
+      #    command -v pyrcc6 || command -v rcc
+      #    pb_tool compile
+      #    test -s resources.py
+      #    pb_tool zip
+
+      - name: Install pb_tool
+        run: |
+          pip install pb_tool
+
+      - name: Build plugin
         working-directory: dynadjustplugin
         run: |
-          echo "y" | pb_tool clean
-          echo "y" | pb_tool dclean
-          
-      - name: Install Qt tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qt6-tools-dev qt6-tools-dev-tools
-         # python -m pip install --upgrade pyqt6 pyqt6-tools
-
-      - name: Compile plugin resources
-        working-directory: dynadjustplugin
-        run: |
-          export PATH="$(python -c 'import sysconfig; print(sysconfig.get_path("scripts"))'):${PATH}"
-          export PATH="/usr/lib/qt6/libexec:${PATH}"
-          command -v rcc
-          command -v pyrcc6 || command -v rcc
-          pb_tool compile
-          test -s resources.py         
-          pb_tool zip
-          
-     #  echo "y" | pb_tool deploy
-     # - name: Run pb_tool deploy
-     #   run: |
-     #     cd dynadjustplugin
-     #     pb_tool clean
-     #     rm -rf "$HOME/.local/share/QGIS/QGIS4/profiles/default/python/plugins/dynadjustplugin"
-     #     pb_tool compile
-     #     pb_tool zip
-
+          pb_tool deploy --quick
+      
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
