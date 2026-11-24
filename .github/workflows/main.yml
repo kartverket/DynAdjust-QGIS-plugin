@@ -69,10 +69,10 @@ jobs:
       - name: Build plugin ZIP
         working-directory: dynadjustplugin
         run: |
-          set -euo pipefail
-          echo "y" | pb_tool dclean
+          set -euo pipefail          
           pb_tool compile
           echo "y" | pb_tool deploy
+          echo "y" | pb_tool dclean
           pb_tool zip
           test -s zip_build/dynadjustplugin.zip
           unzip -t zip_build/dynadjustplugin.zip
