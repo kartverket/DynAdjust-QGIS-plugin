@@ -1,0 +1,14 @@
+pytest>=7.4
+pytest-qgis>=3.0.0
+pre-commit>=3.0
+black>=25.0
+isort>=5.13
+mypy>=2.4
+qgis-stubs>=1.0.0.dev2
+pb_tool==3.2.0
+setuptools
+pyuic5-tool
+sphinx
+docutils
+snowballstemmer
+PyQt6

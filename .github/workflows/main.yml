@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - '[1-99].[0-9]'
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          cd dynadjustplugin
+          python -m pip install -r requirements.txt
+
+      - name: Run pb_tool deploy
+        run: |
+          cd dynadjustplugin
+          pb_tool compile
+          pb_tool zip
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./dynadjustplugin/zip_build/dynadjustplugin.zip
+          asset_name: dynadjust_plugin_app_${{ github.ref_name }}.zip
+          asset_content_type: application/zip
