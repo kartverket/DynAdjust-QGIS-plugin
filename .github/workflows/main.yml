@@ -75,7 +75,7 @@ jobs:
           set -euo pipefail
           pb_tool compile
           mkdir -p zip_build
-          echo "y" | pb_tool deploy --plugin_path zip_build           
+          echo "y" | pb_tool deploy --plugin_path /zip_build           
           zip -r dynadjustplugin_${{ github.ref_name }}.zip zip_build
       
       - name: Create or update release and upload asset
