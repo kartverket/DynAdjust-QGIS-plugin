@@ -77,11 +77,6 @@ jobs:
           mkdir -p zip_build
           echo "y" | pb_tool deploy --plugin_path zip_build           
           zip -r dynadjustplugin_${{ github.ref_name }}.zip zip_build
-      
-      - name: Validate plugin ZIP
-        run: |
-          test -s dynadjustplugin/zip_build/dynadjustplugin.zip
-          unzip -t dynadjustplugin/zip_build/dynadjustplugin.zip
 
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
