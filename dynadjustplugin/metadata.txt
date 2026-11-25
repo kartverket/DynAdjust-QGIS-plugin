@@ -4,19 +4,12 @@
 
 [general]
 name=Dynadjust plugin
+description=Dialog plugin template
 qgisMinimumVersion=3.34
-qgisMaximumVersion=4.
-version=1.0
+qgisMaximumVersion=4.99
+version=1.4
 author=Kartverket
 email=sveinung.himle@kartverket.no
-
-
-# Provide a brief description of the plugin
-description=Dialog plugin template
-version=0.7
-author=Sveinung Himle
-#email=sveinung.himle@kartverket.no
-
 about=Enter more info about your plugin here
 
 tracker=Provide link to your bug tracker
