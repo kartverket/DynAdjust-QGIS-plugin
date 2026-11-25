@@ -90,4 +90,4 @@ jobs:
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
-          files: dynadjustplugin/dynadjustplugin_${{ github.ref_name }}.zip        
+          files: dynadjustplugin/zip_build/dynadjustplugin_${{ github.ref_name }}.zip        
