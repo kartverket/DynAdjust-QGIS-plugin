@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>373</height>
+    <width>741</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="button_box">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>330</y>
+     <x>550</x>
+     <y>460</y>
      <width>181</width>
      <height>32</height>
     </rect>
@@ -32,10 +32,10 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>30</y>
-     <width>431</width>
-     <height>111</height>
+     <x>130</x>
+     <y>120</y>
+     <width>361</width>
+     <height>131</height>
     </rect>
    </property>
    <property name="font">
@@ -44,7 +44,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Oddvar er ein tullebukk</string>
+    <string>Karo er på tjukka</string>
    </property>
   </widget>
  </widget>
