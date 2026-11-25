@@ -73,12 +73,11 @@ jobs:
         working-directory: dynadjustplugin
         run: |
           set -euo pipefail
-          rm -rf deploy zip_build
           pb_tool compile
           echo "y" | pb_tool deploy
           mkdir -p zip_build
-          cd deploy
-          zip -r ../zip_build/dynadjustplugin_${{ github.ref_name }}.zip dynadjustplugin
+          cd ..
+          zip -r dynadjustplugin_${{ github.ref_name }}.zip dynadjustplugin
       
       - name: Create or update release and upload asset
         if: startsWith(github.ref, 'refs/tags/')
