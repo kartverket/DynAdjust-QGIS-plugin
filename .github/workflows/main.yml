@@ -86,7 +86,7 @@ jobs:
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
-          files: ./dynadjustplugin/zip_build/dynadjustplugin.zip
+          files: ./zip_build/dynadjustplugin.zip
         
     #  - name: Create Release
     #    if: startsWith(github.ref, 'refs/tags/')
