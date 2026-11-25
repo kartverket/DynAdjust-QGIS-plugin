@@ -1,14 +1,14 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - 'dev'
-    tags:
-      - '[1-99].[0-9]'
+  #push:
+  #  branches:
+  #    - 'dev'
+  #  tags:
+  #    - '[1-99].[0-9]'
   release:
     types: [published]
-  
+
 permissions:
   contents: write
 
