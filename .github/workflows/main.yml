@@ -75,7 +75,7 @@ jobs:
           set -euo pipefail
           rm -rf deploy zip_build
           pb_tool compile
-          pb_tool deploy
+          echo "y" | pb_tool deploy
           mkdir -p zip_build
           cd deploy
           zip -r ../zip_build/dynadjustplugin_${{ github.ref_name }}.zip dynadjustplugin
