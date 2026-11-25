@@ -48,3 +48,4 @@ class DnaXmlFormat:
     def to_xml(self) -> str:
         """Serialize this document as an XML string."""
         return ElementTree.tostring(self.to_element(), encoding="unicode")
+
