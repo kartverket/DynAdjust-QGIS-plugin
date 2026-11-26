@@ -75,6 +75,7 @@ jobs:
         working-directory: dynadjustplugin
         run: |
           set -euo pipefail
+          pb_tool clean
           pb_tool compile
           mkdir -p zip_build          
           echo "y" | pb_tool deploy --plugin_path zip_build
