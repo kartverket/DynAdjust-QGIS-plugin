@@ -1,3 +1,5 @@
+from pathlib import Path
+from lxml import etree
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.serializers import XmlSerializer
 
@@ -6,15 +8,53 @@ if __package__:
 else:
     from dyna_ml import DnaXmlFormat
 
-parser = XmlParser()
+def validate_xml(xml_file):
+    
+    schema_path = Path('models/DynaML.xsd')
+    schema = etree.XMLSchema(etree.parse(str(schema_path)))
+    
+    file_path = Path(xml_file)
+    if file_path.is_file():
+        schema.assertValid(etree.parse(str(file_path)))
+        print('{}: valid'.format(file_path.name))
+    else:
+        print('{}: missing'.format(file_path.name))
+        raise FileNotFoundError("XML input file not found: {}".format(file_path.name))
+    
+    validate_xml(file_path)
+    print("Parsing XML file:", xml_file)
+    
+    parser = XmlParser()
+    
+    network = parser.parse(
+        str(file_path),
+        DnaXmlFormat
+    )
 
-xml_file = "C:\\Users\\himsve\\source\\repos\\DynAdjust\\sampleData\\etrs89.xml"
+    print("Parsed XML successfully:", network)
 
-print("Parsing XML file:", xml_file)
+def parse_and_serialize(xml_file):
+    file_path = Path(xml_file)
+    if not file_path.is_file():
+        raise FileNotFoundError("XML input file not found: {}".format(file_path))
 
-network = parser.parse(
-    xml_file,
-    DnaXmlFormat
-)
+    print("Parsing XML file:", xml_file)
+    
+    parser = XmlParser()
+    
+    network = parser.parse(
+        str(file_path),
+        DnaXmlFormat
+    )
 
-print("hei")
+    serializer = XmlSerializer()
+
+    xml = serializer.render(network)
+
+    print(xml)
+
+parse_and_serialize("C:\\Users\\himsve\\source\\repos\\DynAdjust\\sampleData\\etrs89.xml")
+
+parse_and_serialize("C:\\Users\\himsve\\source\\repos\\DynAdjust\\sampleData\\etrs89.simult.adj.msr.xml")
+
+parse_and_serialize("C:\\Users\\himsve\\source\\repos\\DynAdjust\\sampleData\\etrs89.simult.adj.stn.xml")
