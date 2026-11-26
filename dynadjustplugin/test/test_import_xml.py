@@ -2,11 +2,7 @@ from pathlib import Path
 from lxml import etree
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.serializers import XmlSerializer
-
-if __package__:
-    from .dyna_ml import DnaXmlFormat
-else:
-    from dyna_ml import DnaXmlFormat
+from ..models.dyna_ml import DnaXmlFormat
 
 def validate_xml(xml_file):
 
