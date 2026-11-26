@@ -38,6 +38,22 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        dialog_layout = QtWidgets.QVBoxLayout(self)
+        dialog_layout.setContentsMargins(0, 0, 0, 0)
+        dialog_layout.addWidget(self.widget)
+
+        file_row = QtWidgets.QHBoxLayout(self.widget)
+        file_row.setContentsMargins(20, 10, 17, 0)
+        file_row.setSpacing(0)
+        self.label.setFixedWidth(141)
+        self.textEdit.setFixedHeight(31)
+        self.toolButton.setFixedSize(41, 31)
+        file_row.addWidget(self.label)
+        file_row.addSpacing(19)
+        file_row.addWidget(self.textEdit, 1)
+        file_row.addSpacing(9)
+        file_row.addWidget(self.toolButton)
+
         self.toolButton.clicked.connect(self.select_dna_project_file)
 
     def select_dna_project_file(self):
