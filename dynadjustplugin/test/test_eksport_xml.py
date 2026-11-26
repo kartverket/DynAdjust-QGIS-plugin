@@ -1,8 +1,18 @@
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.serializers import XmlSerializer
+import sys
+from pathlib import Path
 
-from ..models.dyna_ml import DnaXmlFormat, DnaXmlFormatType, DnaMeasurement, Type, DnaMeasurement, Gpsbaseline
- 
+sys.path.append(str(Path(__file__).parent.parent))
+
+from models import (
+    DnaMeasurement,
+    DnaXmlFormat,
+    DnaXmlFormatType,
+    Gpsbaseline,
+    Type,
+)
+
 observation = DnaXmlFormat(
     type_value=DnaXmlFormatType.MEASUREMENT_FILE,
     dna_measurement=[
