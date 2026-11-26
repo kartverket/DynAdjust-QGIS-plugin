@@ -38,3 +38,14 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        self.toolButton.clicked.connect(self.select_dna_project_file)
+
+    def select_dna_project_file(self):
+        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            self.tr("Select DNA project file"),
+            "",
+            self.tr("All files (*)"),
+        )
+        if file_path:
+            self.textEdit.setPlainText(file_path)
