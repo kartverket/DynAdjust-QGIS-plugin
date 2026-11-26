@@ -18,3 +18,13 @@ from dynadjustplugin.models import DnaMeasurement, DnaXmlFormat
 
 Install the XML extra (`python -m pip install ".[xml]"`) to use xsdata's XML
 parser and serializer.
+
+### Setting up an environment
+
+Jump to the root folder of repo.
+
+```shell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r dynadjustplugin\requirements.txt
+```

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dynadjustplugin"
-version = "0.1"
+version = "0.2"
 description = "DynaML models for the DynAdjust QGIS plugin"
 requires-python = ">=3.12"
 

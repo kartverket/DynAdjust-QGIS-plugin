@@ -45,7 +45,7 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
             self,
             self.tr("Select DNA project file"),
             "",
-            self.tr("All files (*)"),
+            self.tr("DNA project files (*.dnaproj)"),
         )
         if file_path:
             self.textEdit.setPlainText(file_path)
