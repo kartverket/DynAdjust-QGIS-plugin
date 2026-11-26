@@ -9,10 +9,10 @@ else:
     from dyna_ml import DnaXmlFormat
 
 def validate_xml(xml_file):
-    
+
     schema_path = Path('models/DynaML.xsd')
     schema = etree.XMLSchema(etree.parse(str(schema_path)))
-    
+
     file_path = Path(xml_file)
     if file_path.is_file():
         schema.assertValid(etree.parse(str(file_path)))
@@ -20,12 +20,12 @@ def validate_xml(xml_file):
     else:
         print('{}: missing'.format(file_path.name))
         raise FileNotFoundError("XML input file not found: {}".format(file_path.name))
-    
+
     validate_xml(file_path)
     print("Parsing XML file:", xml_file)
-    
+
     parser = XmlParser()
-    
+
     network = parser.parse(
         str(file_path),
         DnaXmlFormat
@@ -39,9 +39,9 @@ def parse_and_serialize(xml_file):
         raise FileNotFoundError("XML input file not found: {}".format(file_path))
 
     print("Parsing XML file:", xml_file)
-    
+
     parser = XmlParser()
-    
+
     network = parser.parse(
         str(file_path),
         DnaXmlFormat
