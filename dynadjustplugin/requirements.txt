@@ -6,6 +6,8 @@ isort>=5.13
 mypy>=2.4
 qgis-stubs>=1.0.0.dev2
 pb_tool==3.2.0
+xsdata
+xsdata[lxml]
 xsdata[cli]
 setuptools
 pyuic5-tool

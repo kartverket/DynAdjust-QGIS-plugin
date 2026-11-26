@@ -1,4 +1,4 @@
-from generated.dyna_ml import (
+from .dyna_ml import (
     M11,
     M12,
     M13,
