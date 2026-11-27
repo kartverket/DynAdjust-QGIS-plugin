@@ -23,19 +23,13 @@ import os
 
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
+from xsdata.exceptions import ParserError
 
 from dynadjustplugin.models.dnaproj_parser import convert_dnaproj_to_xml
+from dynadjustplugin.settings_dialog import SettingsDialog
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'dynadjustplugin_dialog_base.ui'))
-SETTINGS_FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'settings.ui'))
-
-
-class SettingsDialog(QtWidgets.QDialog, SETTINGS_FORM_CLASS):
-    def __init__(self, parent=None):
-        super(SettingsDialog, self).__init__(parent)
-        self.setupUi(self)
 
 
 class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
@@ -65,10 +59,29 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
         file_row.addWidget(self.toolButton)
 
         self.toolButton.clicked.connect(self.select_dna_project_file)
+        self.active_project_xml = None
         self.settings_dialog = SettingsDialog(self)
         self.settingsButton.clicked.connect(self.show_settings_dialog)
 
     def show_settings_dialog(self):
+        if self.active_project_xml is None:
+            QtWidgets.QMessageBox.warning(
+                self,
+                self.tr("No project selected"),
+                self.tr("Select a DNA project file first."),
+            )
+            return
+
+        try:
+            self.settings_dialog.load_project_xml(self.active_project_xml)
+        except (OSError, ParserError, ValueError) as error:
+            QtWidgets.QMessageBox.critical(
+                self,
+                self.tr("Unable to load project settings"),
+                str(error),
+            )
+            return
+
         self.settings_dialog.show()
         self.settings_dialog.raise_()
         self.settings_dialog.activateWindow()
@@ -82,6 +95,7 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
         )
         if file_path:
             self.textEdit.setPlainText(file_path)
+            self.active_project_xml = None
             try:
                 output_path = convert_dnaproj_to_xml(file_path)
             except (OSError, ValueError) as error:
@@ -92,6 +106,7 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
                 )
                 return
 
+            self.active_project_xml = output_path
             QtWidgets.QMessageBox.information(
                 self,
                 self.tr("Project converted"),
