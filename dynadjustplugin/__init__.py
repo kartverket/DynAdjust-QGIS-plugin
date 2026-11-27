@@ -20,6 +20,8 @@
  This script initializes the plugin, making it known to QGIS.
 """
 
+import os
+import sys
 
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
@@ -31,3 +33,11 @@ def classFactory(iface):  # pylint: disable=invalid-name
     #
     from .dynadjustplugin import dynadjustplugin
     return dynadjustplugin(iface)
+
+vendor_path = os.path.join(
+    os.path.dirname(__file__),
+    "vendor"
+)
+
+if vendor_path not in sys.path:
+    sys.path.insert(0, vendor_path)
