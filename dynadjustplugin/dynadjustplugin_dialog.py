@@ -28,6 +28,14 @@ from dynadjustplugin.models.dnaproj_parser import convert_dnaproj_to_xml
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'dynadjustplugin_dialog_base.ui'))
+SETTINGS_FORM_CLASS, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__), 'settings.ui'))
+
+
+class SettingsDialog(QtWidgets.QDialog, SETTINGS_FORM_CLASS):
+    def __init__(self, parent=None):
+        super(SettingsDialog, self).__init__(parent)
+        self.setupUi(self)
 
 
 class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
@@ -57,6 +65,13 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
         file_row.addWidget(self.toolButton)
 
         self.toolButton.clicked.connect(self.select_dna_project_file)
+        self.settings_dialog = SettingsDialog(self)
+        self.settingsButton.clicked.connect(self.show_settings_dialog)
+
+    def show_settings_dialog(self):
+        self.settings_dialog.show()
+        self.settings_dialog.raise_()
+        self.settings_dialog.activateWindow()
 
     def select_dna_project_file(self):
         file_path, _ = QtWidgets.QFileDialog.getOpenFileName(
