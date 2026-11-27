@@ -1,3 +1,4 @@
+from .dnaproj_xml import DnaProject, DnaProjectSection, DnaProjectSetting
 from .dyna_ml import (
     M11,
     M12,
@@ -59,6 +60,9 @@ from .dyna_ml import (
 )
 
 __all__ = [
+    "DnaProject",
+    "DnaProjectSection",
+    "DnaProjectSetting",
     "ClusterId",
     "Clusterpoint",
     "Constraints",

@@ -1,5 +1,8 @@
 import xml.etree.ElementTree as ET
 
+from xsdata.formats.dataclass.serializers import XmlSerializer
+
+from dynadjustplugin.models import DnaProject, DnaProjectSection, DnaProjectSetting
 from dynadjustplugin.models.dnaproj_parser import convert_dnaproj_to_xml
 
 
@@ -36,3 +39,26 @@ def test_convert_dnaproj_to_xml_preserves_settings_and_empty_values(tmp_path):
     assert root.findtext("./Section[@name='import']/Setting[@name='reference-frame']") == (
         "ETRS89-NOR"
     )
+
+
+def test_dnaproj_model_serializes_to_project_xml():
+    project = DnaProject(
+        source="etrs89.dnaproj",
+        section=[
+            DnaProjectSection(
+                name="general",
+                setting=[
+                    DnaProjectSetting(name="network-name", value="etrs89"),
+                    DnaProjectSetting(name="geo-file"),
+                ],
+            )
+        ],
+    )
+
+    root = ET.fromstring(XmlSerializer().render(project))
+
+    assert root.tag == "DnaProject"
+    assert root.attrib == {"source": "etrs89.dnaproj"}
+    assert root.findtext("./Section/Setting[@name='network-name']") == "etrs89"
+    assert root.find("./Section/Setting[@name='geo-file']") is not None
+    assert root.findtext("./Section/Setting[@name='geo-file']") is None
