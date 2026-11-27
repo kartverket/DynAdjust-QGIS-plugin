@@ -24,6 +24,8 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 
+from dynadjustplugin.models.dnaproj_parser import convert_dnaproj_to_xml
+
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'dynadjustplugin_dialog_base.ui'))
 
@@ -65,3 +67,18 @@ class dynadjustpluginDialog(QtWidgets.QDialog, FORM_CLASS):
         )
         if file_path:
             self.textEdit.setPlainText(file_path)
+            try:
+                output_path = convert_dnaproj_to_xml(file_path)
+            except (OSError, ValueError) as error:
+                QtWidgets.QMessageBox.critical(
+                    self,
+                    self.tr("Project conversion failed"),
+                    str(error),
+                )
+                return
+
+            QtWidgets.QMessageBox.information(
+                self,
+                self.tr("Project converted"),
+                self.tr("XML file created at:\n{}").format(output_path),
+            )
